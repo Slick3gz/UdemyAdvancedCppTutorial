@@ -1,4 +1,7 @@
+**/*.xcodeproj
+**/*.xcworkspace
 **/bin
 **/obj
 **/*.cbp
 **/*.layout
+
