@@ -9,6 +9,7 @@
 #include <iostream>
 #include <math.h>
 #include "Bitmap.hpp"
+#include "Mandelbrot.hpp"
 
 
 int main(int argc, const char * argv[]) {
@@ -27,13 +28,17 @@ int main(int argc, const char * argv[]) {
     {
         for(int x{0}; x < WIDTH; ++x)
         {
+            
             double xFractal = (x - WIDTH/2) * 2.0/WIDTH;
             double yFractal = (y - HEIGHT/2) * 2.0/HEIGHT;
-//            double xFractal = sin(x);
-//            double yFractal = sin(y);
             
-            if(xFractal < min) min = yFractal;
-            if(xFractal > max) max = yFractal;
+            int iterations = slick::Mandelbrot::getIterations(xFractal, yFractal);
+            std::uint8_t red = (std::uint8_t)(256 * (double)iterations/slick::Mandelbrot::MAX_ITERATIONS);
+            
+            
+            bitmap.setPixel(x,y, red, red, red);
+            if(red < min) min = red;
+            if(red > max) max = red;
         }
     }
     
