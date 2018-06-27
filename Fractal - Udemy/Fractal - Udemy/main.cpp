@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "BitmapFileHeader.h"
+#include "BitmapInfoHeader.h"
 
 int main(int argc, const char * argv[]) {
     std::cout << "Hello, World!\n";
