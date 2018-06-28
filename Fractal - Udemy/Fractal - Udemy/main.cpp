@@ -19,6 +19,7 @@ int main(int argc, const char * argv[]) {
     
     int const WIDTH = 800;
     int const HEIGHT = 600;
+    
     slick::Bitmap bitmap(WIDTH,HEIGHT);
     
     bitmap.setPixel(WIDTH/2, HEIGHT/2, 255, 255, 255);
@@ -26,6 +27,13 @@ int main(int argc, const char * argv[]) {
     
     double min = 999999;
     double max = -999999;
+    
+    slick::ZoomList zoomList(WIDTH, HEIGHT);
+    
+    zoomList.add(slick::Zoom(WIDTH/2, HEIGHT/2, 4.0/HEIGHT));
+    zoomList.add(slick::Zoom(350, HEIGHT - 202, 0.1));
+    zoomList.add(slick::Zoom(322, HEIGHT - 304, 0.1));
+    zoomList.add(slick::Zoom(322, HEIGHT - 304, 0.01));
     
     // Pointer to hold the iteration counts
     std::unique_ptr<int[]> histogram(new int[slick::Mandelbrot::MAX_ITERATIONS]{});
@@ -36,10 +44,9 @@ int main(int argc, const char * argv[]) {
         for(int x{0}; x < WIDTH; ++x)
         {
             
-            double xFractal = (x - WIDTH/2 - 200) * 2.0/HEIGHT;
-            double yFractal = (y - HEIGHT/2) * 2.0/HEIGHT;
+            std::pair<double, double> coords = zoomList.doZoom(x, y);
             
-            int iterations = slick::Mandelbrot::getIterations(xFractal, yFractal);
+            int iterations = slick::Mandelbrot::getIterations(coords.first, coords.second);
             
             fractal[y*WIDTH+x] = iterations;
             

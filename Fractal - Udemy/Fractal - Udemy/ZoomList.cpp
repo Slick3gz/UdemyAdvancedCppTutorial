@@ -5,7 +5,7 @@
 //  Created by Slick on 6/27/18.
 //  Copyright © 2018 Slick Coding. All rights reserved.
 //
-
+#include <iostream>
 #include "ZoomList.hpp"
 
 namespace slick {
@@ -16,10 +16,19 @@ namespace slick {
     void ZoomList::add(const Zoom& zoom)
     {
         ZoomList::zooms.push_back(zoom);
+        
+        m_xCenter += (zoom.x - m_width/2)*m_scale;
+        m_yCenter += (zoom.y - m_height/2)*m_scale;
+        
+        m_scale *= zoom.scale;
+        
+        std::cout << m_xCenter << ", " << m_yCenter << ", " << m_scale << std::endl;
     }
     std::pair<double,double> ZoomList::doZoom(int x, int y)
     {
-        return std::pair<double,double>(0,0);
+        double xFractal = (x - m_width/2)*m_scale + m_xCenter;
+        double yFractal = (y - m_height/2)*m_scale + m_yCenter;
+        return std::pair<double,double>(xFractal,yFractal);
         
     }
 }
