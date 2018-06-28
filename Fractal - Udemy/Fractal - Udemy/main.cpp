@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <memory>
 #include "Bitmap.hpp"
 #include "Mandelbrot.hpp"
 
@@ -24,6 +25,9 @@ int main(int argc, const char * argv[]) {
     double min = 999999;
     double max = -999999;
     
+    // Pointer to hold the iteration counts
+    std::unique_ptr<int[]> histogram(new int[slick::Mandelbrot::MAX_ITERATIONS + 1]{});
+    
     for(int y{0}; y < HEIGHT; ++y)
     {
         for(int x{0}; x < WIDTH; ++x)
@@ -33,6 +37,14 @@ int main(int argc, const char * argv[]) {
             double yFractal = (y - HEIGHT/2) * 2.0/HEIGHT;
             
             int iterations = slick::Mandelbrot::getIterations(xFractal, yFractal);
+            
+            histogram[iterations]++;
+            for(auto i{0}; i < sizeof(histogram); ++i)
+            {
+                std::cout << "Iterations for iterations[" << i << "]: " << histogram[i] << std::endl;
+            }
+                
+            
             std::uint8_t color = (std::uint8_t)(256 * (double)iterations/slick::Mandelbrot::MAX_ITERATIONS);
             
             color = color*color*color;
