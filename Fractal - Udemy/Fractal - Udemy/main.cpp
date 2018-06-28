@@ -46,16 +46,40 @@ int main(int argc, const char * argv[]) {
                 histogram[iterations]++;
             }
             
-            std::uint8_t color = (std::uint8_t)(256 * (double)iterations/slick::Mandelbrot::MAX_ITERATIONS);
             
-            color = color*color*color;
-            
-            bitmap.setPixel(x,y, 0, color, 0);
-            if(color < min) min = color;
-            if(color > max) max = color;
         }
     }
     
+    int total{0};
+    for(auto i{0}; i < slick::Mandelbrot::MAX_ITERATIONS; ++i)
+    {
+        total += histogram[i];
+    }
+    
+    for(int y{0}; y < HEIGHT; ++y)
+    {
+        for(int x{0}; x < WIDTH; ++x)
+        {
+            int iterations = fractal[y*WIDTH+x];
+            
+            
+            
+            double hue{0.0};
+            
+            for(auto i{0}; i <= iterations; ++i)
+            {
+                hue += (double)histogram[i]/total;
+            }
+            
+            std::uint8_t red{0};
+            std::uint8_t green = hue*255;
+            std::uint8_t blue{0};
+            
+            
+            bitmap.setPixel(x,y, red, green, blue);
+            
+        }
+    }
     bitmap.write("test.bmp");
     return 0;
 }
