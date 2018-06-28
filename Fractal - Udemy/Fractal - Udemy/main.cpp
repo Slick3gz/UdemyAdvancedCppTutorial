@@ -13,7 +13,7 @@
 #include "Bitmap.hpp"
 #include "Mandelbrot.hpp"
 #include "ZoomList.hpp"
-
+#include "FractalCreator.hpp"
 
 int main(int argc, const char * argv[]) {
     
