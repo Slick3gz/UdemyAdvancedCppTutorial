@@ -11,6 +11,8 @@
 
 #include <string>
 #include "Zoom.hpp"
+#include "Bitmap.hpp"
+#include "ZoomList.hpp"
 
 namespace slick
 {
@@ -21,9 +23,19 @@ namespace slick
         virtual ~FractalCreator();
         
         void calculateIteration();
+        void calculateTotalIterations();
         void drawFractal();
         void writeBitmap(std::string name);
         void addZoom(const Zoom& zoom);
+    private:
+        int m_width;
+        int m_height;
+        int m_total{0};
+        // Pointer to hold the iteration counts
+        std::unique_ptr<int[]> m_histogram;
+        std::unique_ptr<int[]> m_fractal;
+        slick::Bitmap m_bitmap;
+        slick::ZoomList m_zoomList;
     };
 }
 #endif /* FractalCreator_hpp */
