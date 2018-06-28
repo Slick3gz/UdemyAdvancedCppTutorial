@@ -12,6 +12,7 @@
 #include <math.h>
 #include "Bitmap.hpp"
 #include "Mandelbrot.hpp"
+#include "ZoomList.hpp"
 
 
 int main(int argc, const char * argv[]) {
