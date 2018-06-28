@@ -26,7 +26,8 @@ int main(int argc, const char * argv[]) {
     double max = -999999;
     
     // Pointer to hold the iteration counts
-    std::unique_ptr<int[]> histogram(new int[slick::Mandelbrot::MAX_ITERATIONS + 1]{});
+    std::unique_ptr<int[]> histogram(new int[slick::Mandelbrot::MAX_ITERATIONS]{});
+    std::unique_ptr<int[]> fractal(new int[WIDTH*HEIGHT]{});
     
     for(int y{0}; y < HEIGHT; ++y)
     {
@@ -38,12 +39,12 @@ int main(int argc, const char * argv[]) {
             
             int iterations = slick::Mandelbrot::getIterations(xFractal, yFractal);
             
-            histogram[iterations]++;
-            for(auto i{0}; i < sizeof(histogram); ++i)
+            fractal[y*WIDTH+x] = iterations;
+            
+            if(iterations != slick::Mandelbrot::MAX_ITERATIONS)
             {
-                std::cout << "Iterations for iterations[" << i << "]: " << histogram[i] << std::endl;
+                histogram[iterations]++;
             }
-                
             
             std::uint8_t color = (std::uint8_t)(256 * (double)iterations/slick::Mandelbrot::MAX_ITERATIONS);
             
@@ -55,8 +56,6 @@ int main(int argc, const char * argv[]) {
         }
     }
     
-    
-    std::cout << min <<", "  << max << std::endl;
     bitmap.write("test.bmp");
     return 0;
 }
